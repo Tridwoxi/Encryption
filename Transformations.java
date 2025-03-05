@@ -2,14 +2,10 @@
 public class Transformations {
     public static String[] permute(String[] original) {
         String[] result = new String[original.length];
-
         for (int i = 0; i < result.length; i++) {
-            for (String string : result) {
-
-            }
-
+            result[i] = original[PERMUTATION_TABLE[i-1]];
         }
-
+        return result;
     }
     
     // @formatter:off
