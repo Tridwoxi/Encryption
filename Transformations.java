@@ -1,5 +1,6 @@
 
 public class Transformations {
+    /* May or may not be correct, depending on how permutations are represented */
     public static String[] permute(String[] original) {
         String[] result = new String[original.length];
         for (int i = 0; i < result.length; i++) {
