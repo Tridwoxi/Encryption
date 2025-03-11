@@ -7,7 +7,7 @@
 /**
     State machine that yields keys by churning original.
  */
-public class KeyGenerator {
+public class KeyScheduler {
     private String key;
     private String left_half;
     private String right_half;
