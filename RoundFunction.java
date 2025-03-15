@@ -38,7 +38,7 @@ public class RoundFunction {
     }
 
     /**
-        The f function {@code f}. Accepts part of the codeblock and a key. XORs using {@link exclusive_or}, substitues each byte using {@link substitute}, and permutes using {@link permute} as part of the encryption process.
+        The f function "f". Accepts part of the codeblock and a key. XORs using {@link exclusive_or}, substitues each byte using {@link substitute}, and permutes using {@link permute} as part of the encryption process.
     
         @param right_input    part of the codeblock, binary string of length 32
         @param key_n      the key used for salting, binary string of length 32
