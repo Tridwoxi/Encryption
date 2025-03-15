@@ -1,3 +1,10 @@
+/**
+    The round function used for encryption.
+    
+    @apiNote 
+
+    @implNote 
+ */
 
 public class RoundFunction {
     // For testing; to be deleted later.
@@ -8,16 +15,17 @@ public class RoundFunction {
         System.out.println(result);
     }
 
+    // NOTE TO JOHN: 
     public static void processStringInChunks(String input, String key) {
-        int chunkSize = 8;
+        int chunk_size = 8;
         int length = input.length();
 
-        for (int i = 0; i < length; i += chunkSize) {
+        for (int i = 0; i < length; i += chunk_size) {
             // Extract 8-character chunk or pad if needed
-            String chunk = input.substring(i, Math.min(i + chunkSize, length));
+            String chunk = input.substring(i, Math.min(i + chunk_size, length));
 
             // Pad the chunk if it's less than 8 characters
-            if (chunk.length() < chunkSize) {
+            if (chunk.length() < chunk_size) {
                 chunk = String.format("%-8s", chunk); // Pads with spaces
             }
 
@@ -27,10 +35,10 @@ public class RoundFunction {
     }
 
     /**
-        The function for a round as given by the Rijndael model.
+        The function for a round.
 
-        @param input    represents the original plaintext on the first itteration, or the progressively more jumbled output of the round function as steps increase
-        @param key      represents the step-n first 4 characters of the input key given from the Transform generator created by a wonderful subcontractor of DacatDeveloplment
+        @param input    represents the original plaintext on the first iteration, or the progressively more jumbled output of the round function as steps increase
+        @param key      represents the step-n first 4 characters of the input key given from the Transform generator created by a wonderful subcontractor of DacatDeveloplment :)
 
         @return
 
@@ -48,7 +56,7 @@ public class RoundFunction {
     }
 
     /**
-        The Rijndael f function {@code f}. Accepts part of the codeblock and a key. XORs using {@link exclusive_or}, substitues each byte using {@link substitute}, and permutes using {@link permute} as part of the encryption process.
+        The f function {@code f}. Accepts part of the codeblock and a key. XORs using {@link exclusive_or}, substitues each byte using {@link substitute}, and permutes using {@link permute} as part of the encryption process.
     
         @param right_input    part of the codeblock, binary string of length 32
         @param key_n      the key used for salting, binary string of length 32
