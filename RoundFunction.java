@@ -1,10 +1,3 @@
-/**
-    Documentation will go here
-    
-    @apiNote 
-
-    @implNote 
- */
 
 public class RoundFunction {
     // For testing; to be deleted later.
@@ -15,18 +8,61 @@ public class RoundFunction {
         System.out.println(result);
     }
 
+    public static void processStringInChunks(String input, String key) {
+        int chunkSize = 8;
+        int length = input.length();
+
+        for (int i = 0; i < length; i += chunkSize) {
+            // Extract 8-character chunk or pad if needed
+            String chunk = input.substring(i, Math.min(i + chunkSize, length));
+
+            // Pad the chunk if it's less than 8 characters
+            if (chunk.length() < chunkSize) {
+                chunk = String.format("%-8s", chunk); // Pads with spaces
+            }
+
+            // Call the round_function() on the chunk
+            round_function(chunk, key);
+        }
+    }
+
+
+
+    //Darryl, if the issue is resolved for whatever I'm talking about, delete comments that look like this
+    //alright, this should be my last piece. I hope I'm using your keygenerator properly.
+    //as always please check for bugs, and formatting for your OCD (but admittedly really pro looking formatting)
 
     /**
-        The function for a round.
+     This is the final wrapper, and when run, fully encrypts a byte.
 
-        @param input    represents the original plaintext on the first iteration, or the progressively more jumbled output of the round function as steps increase
-        @param key      represents the step-n first 4 characters of the input key given from the Transform generator created by a wonderful subcontractor of DacatDeveloplment :)
+     @param input     the 8 character chunk/or binary string representation (I got lost darryl)
+     @param kg        the current churn on the key generator
 
-        @return
-
+     @return          a fully encrypted chunk
      */
+
+    public static String runRoundFunctionTenTimes(String input, KeyGenerator kg) {
+        String result = input;
+        for (int i = 0; i < 10; i++) {
+            String key = kg.next(); // Generate new key for each round
+            result = round_function(result, key.substring(0, 8)); // Use the first 8 bits of the key
+        }
+        return result;
+    }
+
     //note for Darryl; I cannot create a full 10 round code without the transformer parameter,
     //so I will do so when you finish that
+    //update* no longer an issue.
+
+    /**
+     The function for a round as given by the Rijndael model.
+
+     @param input    represents the original plaintext on the first itteration, or the progressively more jumbled output of the round function as steps increase
+     @param key      represents the step-n first 4 characters of the input key given from the Transform generator created by a wonderful subcontractor of DacatDeveloplment
+
+     @return one round of the full encryprion shift on an 8-bit chunk
+
+     */
 
     public static String round_function(String input, String key) {
         String left = input.substring(0, 31);
@@ -38,7 +74,7 @@ public class RoundFunction {
     }
 
     /**
-        The f function "f". Accepts part of the codeblock and a key. XORs using {@link exclusive_or}, substitues each byte using {@link substitute}, and permutes using {@link permute} as part of the encryption process.
+        The Rijndael f function {@code f}. Accepts part of the codeblock and a key. XORs using {@link exclusive_or}, substitues each byte using {@link substitute}, and permutes using {@link permute} as part of the encryption process.
     
         @param right_input    part of the codeblock, binary string of length 32
         @param key_n      the key used for salting, binary string of length 32
