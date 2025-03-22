@@ -26,17 +26,43 @@ public class RoundFunction {
         }
     }
 
+
+
+    //Darryl, if the issue is resolved for whatever I'm talking about, delete comments that look like this
+    //alright, this should be my last piece. I hope I'm using your keygenerator properly.
+    //as always please check for bugs, and formatting for your OCD (but admittedly really pro looking formatting)
+
     /**
-        The function for a round as given by the Rijndael model.
+     This is the final wrapper, and when run, fully encrypts a byte.
 
-        @param input    represents the original plaintext on the first itteration, or the progressively more jumbled output of the round function as steps increase
-        @param key      represents the step-n first 4 characters of the input key given from the Transform generator created by a wonderful subcontractor of DacatDeveloplment
+     @param input     the 8 character chunk/or binary string representation (I got lost darryl)
+     @param kg        the current churn on the key generator
 
-        @return
-
+     @return          a fully encrypted chunk
      */
+
+    public static String runRoundFunctionTenTimes(String input, KeyGenerator kg) {
+        String result = input;
+        for (int i = 0; i < 10; i++) {
+            String key = kg.next(); // Generate new key for each round
+            result = round_function(result, key.substring(0, 8)); // Use the first 8 bits of the key
+        }
+        return result;
+    }
+
     //note for Darryl; I cannot create a full 10 round code without the transformer parameter,
     //so I will do so when you finish that
+    //update* no longer an issue.
+
+    /**
+     The function for a round as given by the Rijndael model.
+
+     @param input    represents the original plaintext on the first itteration, or the progressively more jumbled output of the round function as steps increase
+     @param key      represents the step-n first 4 characters of the input key given from the Transform generator created by a wonderful subcontractor of DacatDeveloplment
+
+     @return one round of the full encryprion shift on an 8-bit chunk
+
+     */
 
     public static String round_function(String input, String key) {
         String left = input.substring(0, 31);
