@@ -24,7 +24,7 @@ final class Config {
 public class Encryption {
     public static void main(String[] args) {
         // TESTS
-        perform_tests();
+        run_tests();
 
         // USER INPUT
         Scanner scanner = new Scanner(System.in);
@@ -128,7 +128,7 @@ public class Encryption {
         }
     }
 
-    public static void perform_tests() {
+    public static void run_tests() {
         String[] CHUNKS = {
                 "1111111111111111111111111111111111111111111111111111111111111111",
                 "0000000000000000000000000000000000000000000000000000000000000000",
