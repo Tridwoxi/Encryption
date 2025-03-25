@@ -17,7 +17,11 @@ public class RoundFunction {
                     : key_scheduler.next_decryption_key();
             result = round_function(result, key);
         }
-        return result;
+
+        int chunk_size = Config.CHUNK_SIZE_BYTES * Byte.SIZE;
+        String left = result.substring(0, chunk_size / 2);
+        String right = result.substring(chunk_size / 2, chunk_size);
+        return right + left;
     }
 
     /**
@@ -33,8 +37,7 @@ public class RoundFunction {
         String old_right = input.substring(chunk_size / 2, chunk_size);
         String new_left = old_right;
         String new_right = exclusive_or(old_left, f_function(old_right, key));
-        input = new_left + new_right;
-        return input;
+        return new_left + new_right;
     }
 
     /**

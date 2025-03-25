@@ -23,6 +23,9 @@ final class Config {
  */
 public class Encryption {
     public static void main(String[] args) {
+        // TESTS
+        perform_tests();
+
         // USER INPUT
         Scanner scanner = new Scanner(System.in);
         System.out.printf("Encrypt or decrypt: ");
@@ -57,8 +60,7 @@ public class Encryption {
         }
         String output = string_builder.toString();
         if (!mode.toLowerCase().startsWith("e")) {
-            output = convert_from_binary(output);
-            // Will not bother to unpad, as that was done with NULL
+            output = convert_from_binary(output).replace("\0", "");
         }
         write_file(output_file, output);
     }
@@ -123,6 +125,41 @@ public class Encryption {
             file_writer.flush();
         } catch (Exception e) {
             System.err.println(e);
+        }
+    }
+
+    public static void perform_tests() {
+        String[] CHUNKS = {
+                "1111111111111111111111111111111111111111111111111111111111111111",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "1100110010000000000001110101111100010001100101111010001001001100",
+                "1111111111111111111111111111111111111111111111111111111111111111",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "0101011010001110111001000111100001001110010001100110000011110101",
+                "0011000101110111011100100101001001001101011010100110011111010111",
+        };
+        String[] KEYS = {
+                "11111111111111111111111111111111111111111111111111111111",
+                "11111111111111111111111111111111111111111111111111111111",
+                "00000000000000000000000000000000000000000000000000000000",
+                "00000000000000000000000000000000000000000000000000000000",
+                "11111111111111111111111111111111111111111111111111111111",
+                "11111111111111111111111111111111111111111111111111111111",
+                "00000000000000000000000000000000000000000000000000000000",
+                "11111111111111111111111111111111111111111111111111111111",
+                "00000000000000000000000000000000000000000000000000000000",
+        };
+
+        for (int index = 0; index < 4 + 1; index++) {
+            String result = RoundFunction.round_functions(CHUNKS[index], KEYS[index], "e");
+            System.out.println("TEST" + (index + 1) + ": " + result);
+        }
+
+        for (int index = 4; index < 9; index++) {
+            String result = RoundFunction.round_functions(CHUNKS[index], KEYS[index], "d");
+            System.out.println("TEST" + (index + 1) + ": " + result);
         }
     }
 }
